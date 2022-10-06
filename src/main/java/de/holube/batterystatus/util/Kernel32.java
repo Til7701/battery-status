@@ -1,4 +1,4 @@
-package de.holube.batterystatus;
+package de.holube.batterystatus.util;
 
 import com.sun.jna.Native;
 import com.sun.jna.Structure;
@@ -7,6 +7,9 @@ import com.sun.jna.win32.StdCallLibrary;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * https://stackoverflow.com/a/3434962
+ */
 public interface Kernel32 extends StdCallLibrary {
 
     Kernel32 INSTANCE = Native.load("Kernel32", Kernel32.class);
@@ -18,6 +21,7 @@ public interface Kernel32 extends StdCallLibrary {
         public byte ACLineStatus;
         public byte BatteryFlag;
         public byte BatteryLifePercent;
+        @SuppressWarnings("unused")
         public byte Reserved1;
         public int BatteryLifeTime;
         public int BatteryFullLifeTime;
@@ -102,6 +106,7 @@ public interface Kernel32 extends StdCallLibrary {
     /**
      * Fill the structure.
      */
+    @SuppressWarnings("UnusedReturnValue")
     int GetSystemPowerStatus(SYSTEM_POWER_STATUS result);
 
 }

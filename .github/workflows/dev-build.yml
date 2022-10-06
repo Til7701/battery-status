@@ -1,4 +1,4 @@
-name: Build
+name: Development Build
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
     paths:
       - src/**
-      - pom-xml
+      - pom.xml
 
 jobs:
   verify:

@@ -9,6 +9,8 @@ jobs:
   verify:
     name: Verify project
     runs-on: windows-latest
+    outputs:
+      tagname: ${{ steps.tagname.outputs.tag }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 8

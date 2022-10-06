@@ -11,6 +11,8 @@ import java.util.TimerTask;
 
 public class Main {
 
+    private static final int INTERVAL = 60 * 1000;
+
     private static final Kernel32.SYSTEM_POWER_STATUS batteryStatus = new Kernel32.SYSTEM_POWER_STATUS();
 
     private static final TrayIcon trayIcon = TrayIconFactory.create();
@@ -37,7 +39,7 @@ public class Main {
                 refreshIcon();
             }
 
-        }, 100, 60 * 1000);
+        }, 100, INTERVAL);
     }
 
     private static void refreshIcon() {

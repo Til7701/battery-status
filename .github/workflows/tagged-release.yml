@@ -19,9 +19,6 @@ jobs:
           cache: maven
       - name: Verify with Maven
         run: mvn --batch-mode --update-snapshots verify
-      - name: Get tagname
-        id: tagname
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
   publish:
     needs: verify
@@ -47,6 +44,6 @@ jobs:
           asset_name: battery-status.jar
           prerelease: false
           overwrite: true
-          tag: ${{ needs.verify.outputs.tagname }}
-          release_name: ${{ needs.verify.outputs.tagname }}
+          tag: ${{ github.ref_name }}
+          release_name: ${{ github.ref_name }}
           body: This release is an automatic build from the master branch.

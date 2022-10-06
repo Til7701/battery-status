@@ -1,4 +1,4 @@
-name: Release Build
+name: Build
 
 on:
   push:
@@ -45,8 +45,8 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/battery-status.jar
           asset_name: battery-status.jar
-          prerelease: false
+          prerelease: true
           overwrite: true
-          tag: release
+          tag: development
           release_name: Automatic Build
           body: This release is an automatic build from the master branch.

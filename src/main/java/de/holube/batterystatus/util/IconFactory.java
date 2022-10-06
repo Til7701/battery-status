@@ -10,7 +10,7 @@ public class IconFactory {
     }
 
     public static BufferedImage create(String text) {
-        Font font = new Font("Arial", Font.PLAIN, 500);
+        Font font = new Font("Arial", Font.PLAIN, 200);
         BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = img.createGraphics();
         g2d.setFont(font);

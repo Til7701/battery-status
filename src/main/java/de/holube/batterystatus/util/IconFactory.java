@@ -16,7 +16,7 @@ public class IconFactory {
         g2d.setFont(font);
         FontMetrics fm = g2d.getFontMetrics();
         int width = fm.stringWidth(text);
-        int height = fm.getHeight();
+        int height = fm.getAscent() + 10;
         g2d.dispose();
 
         img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);

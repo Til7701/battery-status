@@ -16,15 +16,14 @@ public class IconFactory {
         g2d.setFont(font);
         FontMetrics fm = g2d.getFontMetrics();
         int width = fm.stringWidth(text);
-        int height = fm.getAscent() + 10;
+        int height = fm.getAscent() - fm.getDescent() + 10;
         g2d.dispose();
 
         img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         g2d = img.createGraphics();
         g2d.setFont(font);
-        fm = g2d.getFontMetrics();
         g2d.setColor(Color.WHITE);
-        g2d.drawString(text, 0, fm.getAscent());
+        g2d.drawString(text, 0, height - 5);
         g2d.dispose();
 
         return img;

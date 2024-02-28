@@ -22,7 +22,6 @@ public class TrayIconFactory {
             System.exit(1);
         }
 
-        systemTray.installShutdownHook();
         systemTray.setImage(image);
         systemTray.getMenu().add(new MenuItem("Exit", e -> {
             systemTray.shutdown();

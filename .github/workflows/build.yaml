@@ -38,7 +38,8 @@ jobs:
         shell: bash
         run: |
           version="${{ inputs.version }}"
-          if  [ $version = "" ]; then
+          if  [ "${version}" = tag ]; then
+            echo "Setting version based on tag"
             version=$(echo ${{ inputs.tag }} | cut -c 2)
           fi
           ./build.sh $version

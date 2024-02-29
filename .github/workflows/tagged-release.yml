@@ -10,7 +10,7 @@ jobs:
     uses: ./.github/workflows/build.yaml
     with:
       tag: ${{ github.ref_name }}
-      version: ""
+      version: "tag"
       github-release: true
       prerelease: true
     secrets: inherit

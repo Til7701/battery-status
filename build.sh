@@ -2,6 +2,8 @@
 
 set -e
 
+version="$1"
+
 echo "Building client jar"
 mvn --batch-mode --update-snapshots install package
 
@@ -12,8 +14,10 @@ jpackage --type exe \
 --main-jar "./battery-status.jar" \
 --resource-dir "./jpackage" \
 --name "battery-status" \
---app-version "2.0.0" \
+--app-version "${version}" \
 --dest "./target/dist" \
 --win-upgrade-uuid "19c20ba8-f49e-43e7-8efe-40970f2be007"
+
+ls -al ./target/dist
 
 exit 0

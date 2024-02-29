@@ -9,7 +9,7 @@ echo "Running jpackage"
 jpackage --type exe \
 --verbose \
 --input "./target" \
---main-jar "./target/battery-status.jar" \
+--main-jar "./battery-status.jar" \
 --resource-dir "./jpackage" \
 --name "battery-status" \
 --app-version "2.0.0" \

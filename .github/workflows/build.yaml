@@ -40,7 +40,7 @@ jobs:
           version="${{ inputs.version }}"
           if  [ "${version}" = tag ]; then
             echo "Setting version based on tag"
-            version=$(echo ${{ inputs.tag }} | cut -c 2)
+            version=$(echo ${{ inputs.tag }} | cut -c 2-)
           fi
           ./build.sh $version
       - name: Upload Application

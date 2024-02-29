@@ -37,7 +37,7 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          version = "${{ inputs.version }}"
+          version="${{ inputs.version }}"
           if  [ $version = "" ]; then
             version=$(echo ${{ inputs.tag }} | cut -c 2)
           fi

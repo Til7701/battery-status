@@ -6,11 +6,22 @@ on:
       - "v*"
 
 jobs:
+  version-job:
+    runs-on: ubuntu-latest
+    outputs:
+      version-string: ${{ steps.step1.outputs.test }}
+    steps:
+      - id: step1
+        run: |
+          version=$(echo "${{ github.ref_name }}" | cut -c 2-)
+          echo "$version" >> "$GITHUB_OUTPUT"
+
   publish:
+    needs: version-job
     uses: ./.github/workflows/build.yaml
     with:
       tag: ${{ github.ref_name }}
-      version: "tag"
+      version: ${{needs.version-job.outputs.version-string}}
       github-release: true
       prerelease: true
     secrets: inherit

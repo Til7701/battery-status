@@ -37,12 +37,7 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          version="${{ inputs.version }}"
-          if  [ "${version}" = tag ]; then
-            echo "Setting version based on tag"
-            version=$(echo ${{ inputs.tag }} | cut -c 2-)
-          fi
-          ./build.sh $version
+          ./build.sh ${{ inputs.version }}
       - name: Upload Application
         uses: svenstaro/upload-release-action@v2
         env:
@@ -54,5 +49,5 @@ jobs:
           prerelease: ${{ inputs.prerelease }}
           overwrite: true
           tag: ${{ inputs.tag }}
-          release_name: ${{ inputs.version }}
+          release_name: ${{ inputs.tag }}
           body: ""

@@ -43,7 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/dist/battery-status_${{ inputs.version }}.exe
+          file: target/dist/battery-status-${{ inputs.version }}.exe
           asset_name: battery-status_${{ inputs.version }}-setup.exe
           prerelease: ${{ inputs.prerelease }}
           overwrite: true

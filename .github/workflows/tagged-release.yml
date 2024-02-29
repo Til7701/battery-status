@@ -7,43 +7,21 @@ on:
 
 jobs:
   verify:
-    name: Verify project
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: '8'
-          distribution: 'adopt'
-          cache: maven
-      - name: Verify with Maven
-        run: mvn --batch-mode --update-snapshots verify
+    uses: ./.github/workflows/verify.yaml
 
-  publish:
-    needs: verify
-    name: Publish for Windows
-    runs-on: windows-latest
+  create-version-string:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.step1.outputs.test }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: maven
-      - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots clean install package
-      - name: Upload Application
-        uses: svenstaro/upload-release-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/battery-status.jar
-          asset_name: battery-status.jar
-          prerelease: false
-          overwrite: true
-          tag: ${{ github.ref_name }}
-          release_name: ${{ github.ref_name }}
-          body: This release is an automatic build from the master branch.
+      - id: step1
+        run: echo ${{ github.ref_name }} | cut -c 2- >> "$GITHUB_OUTPUT"
+  publish:
+    needs: [ verify, create-version-string ]
+    uses: ./.github/workflows/build.yaml
+    with:
+      tag: ${{ github.ref_name }}
+      version: ${{ needs.create-version-string.outputs.version }}
+      github-release: true
+      prerelease: true
+    secrets: inherit

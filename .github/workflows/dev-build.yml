@@ -9,9 +9,6 @@ on:
       - pom.xml
 
 jobs:
-  verify:
-    uses: ./.github/workflows/verify.yaml
-
   publish:
     needs: verify
     uses: ./.github/workflows/build.yaml

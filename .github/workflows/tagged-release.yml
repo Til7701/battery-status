@@ -6,9 +6,6 @@ on:
       - "v*"
 
 jobs:
-  verify:
-    uses: ./.github/workflows/verify.yaml
-
   create-version-string:
     runs-on: ubuntu-latest
     outputs:

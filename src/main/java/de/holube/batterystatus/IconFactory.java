@@ -1,4 +1,4 @@
-package de.holube.batterystatus.util;
+package de.holube.batterystatus;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

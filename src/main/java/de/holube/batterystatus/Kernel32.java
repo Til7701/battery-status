@@ -1,4 +1,4 @@
-package de.holube.batterystatus.util;
+package de.holube.batterystatus;
 
 import com.sun.jna.Native;
 import com.sun.jna.Structure;
@@ -13,6 +13,12 @@ import java.util.List;
 public interface Kernel32 extends StdCallLibrary {
 
     Kernel32 INSTANCE = Native.load("Kernel32", Kernel32.class);
+
+    /**
+     * Fill the structure.
+     */
+    @SuppressWarnings("UnusedReturnValue")
+    int GetSystemPowerStatus(SYSTEM_POWER_STATUS result);
 
     /**
      * @see <a href="https://docs.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-system_power_status">Windows Power Status</a>
@@ -102,11 +108,5 @@ public interface Kernel32 extends StdCallLibrary {
                     "Battery Full: " + getBatteryFullLifeTime() + "\n";
         }
     }
-
-    /**
-     * Fill the structure.
-     */
-    @SuppressWarnings("UnusedReturnValue")
-    int GetSystemPowerStatus(SYSTEM_POWER_STATUS result);
 
 }

@@ -1,4 +1,4 @@
-package de.holube.batterystatus.util;
+package de.holube.batterystatus;
 
 import dorkbox.systemTray.MenuItem;
 import dorkbox.systemTray.SystemTray;

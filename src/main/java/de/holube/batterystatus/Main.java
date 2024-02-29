@@ -1,9 +1,6 @@
 package de.holube.batterystatus;
 
 import com.github.jbrienen.vbs_sc.ShortcutFactory;
-import de.holube.batterystatus.util.IconFactory;
-import de.holube.batterystatus.util.Kernel32;
-import de.holube.batterystatus.util.TrayIconFactory;
 import dorkbox.systemTray.SystemTray;
 
 import java.awt.*;

@@ -36,7 +36,12 @@ jobs:
           cache: maven
       - name: Build
         shell: bash
-        run: ./build.sh ${{ inputs.version }}
+        run: |
+          version = "${{ inputs.version }}"
+          if  [ $version = "" ]; then
+            version=$(echo ${{ inputs.tag }} | cut -c 2)
+          fi
+          ./build.sh $version
       - name: Upload Application
         uses: svenstaro/upload-release-action@v2
         env:

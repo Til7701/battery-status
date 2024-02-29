@@ -12,7 +12,7 @@ jobs:
       version: ${{ steps.step1.outputs.test }}
     steps:
       - id: step1
-        run: echo ${{ github.ref_name }} | cut -c 2- >> "$GITHUB_OUTPUT"
+        run: echo "${{ github.ref_name }}" | cut -c 2- >> "$GITHUB_OUTPUT"
   publish:
     needs: create-version-string
     uses: ./.github/workflows/build.yaml

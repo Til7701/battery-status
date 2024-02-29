@@ -14,7 +14,8 @@ jobs:
       - id: step1
         run: |
           version=$(echo "${{ github.ref_name }}" | cut -c 2-)
-          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "${version}"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
 
   publish:
     needs: version-job

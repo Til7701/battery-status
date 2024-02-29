@@ -11,11 +11,9 @@ jobs:
     outputs:
       version: ${{ steps.step1.outputs.test }}
     steps:
-      - uses: bhowell2/github-substring-action@1.0.2
-        id: step1
-        with:
-          value: ${{ github.ref_name }}
-          index_of_str: "v"
+      - run: |
+          version=$(echo ${{ github.ref_name }} | cut -c 2)
+          echo "$version" >> $GITHUB_OUTPUT
   publish:
     needs: create-version-string
     uses: ./.github/workflows/build.yaml

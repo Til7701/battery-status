@@ -3,6 +3,7 @@
 set -e
 
 version="$1"
+echo "Called with version: ${version}"
 
 echo "Building client jar"
 mvn --batch-mode --update-snapshots install package

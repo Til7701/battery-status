@@ -42,13 +42,16 @@ public class Main {
         System.out.println(autoDir.getAbsolutePath());
         final File installDir = new File(".");
         final String exePath = installDir.getAbsolutePath().substring(0, installDir.getAbsolutePath().length() - 2) + "\\battery-status.exe";
+        final String linkPath = autoDir.getAbsolutePath() + "\\battery-status.lnk";
         System.out.println(installDir.getAbsolutePath());
 
-        try {
-            ShortcutFactory.createShortcut(exePath, autoDir.getAbsolutePath());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.err.println("Could not create Shortcut");
+        if (!new File(linkPath).exists()) {
+            try {
+                ShortcutFactory.createShortcut(exePath, linkPath);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                System.err.println("Could not create Shortcut");
+            }
         }
     }
 

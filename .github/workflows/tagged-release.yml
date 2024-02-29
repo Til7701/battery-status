@@ -7,7 +7,6 @@ on:
 
 jobs:
   publish:
-    needs: create-version-string
     uses: ./.github/workflows/build.yaml
     with:
       tag: ${{ github.ref_name }}

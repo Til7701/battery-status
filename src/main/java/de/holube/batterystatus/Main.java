@@ -1,7 +1,6 @@
 package de.holube.batterystatus;
 
 import com.github.jbrienen.vbs_sc.ShortcutFactory;
-import dorkbox.systemTray.SystemTray;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,11 +13,22 @@ public class Main {
 
     private static final Kernel32.SYSTEM_POWER_STATUS batteryStatus = new Kernel32.SYSTEM_POWER_STATUS();
 
-    private static final SystemTray systemTray = TrayIconFactory.create();
+    private static final TrayIcon trayIcon = TrayIconFactory.create();
 
     public static void main(String[] args) {
-        registerAutostart();
-        Timer timer = new Timer(true);
+        if (!SystemTray.isSupported()) {
+            System.err.println("System Tray not Supported!");
+            System.exit(1);
+        }
+        try {
+            final SystemTray tray = SystemTray.getSystemTray();
+            tray.add(trayIcon);
+        } catch (Throwable e) {
+            System.err.println("Could not add Tray Icon! " + e.getMessage());
+            System.exit(1);
+        }
+
+        final Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(new TimerTask() {
 
             @Override
@@ -27,6 +37,7 @@ public class Main {
             }
 
         }, 100, 60 * 1000L);
+        registerAutostart();
     }
 
     private static void registerAutostart() {
@@ -60,13 +71,14 @@ public class Main {
         Kernel32.INSTANCE.GetSystemPowerStatus(batteryStatus);
         String text = batteryStatus.getBatteryLifePercent();
 
-        BufferedImage img = IconFactory.create(text);
+        final BufferedImage img = IconFactory.create(text);
 
-        int size = systemTray.getMenuImageSize();
+        final int iconWidth = (int) trayIcon.getSize().getWidth();
+        final int iconHeight = (int) trayIcon.getSize().getHeight();
         if (img.getWidth() > img.getHeight()) {
-            systemTray.setImage(img.getScaledInstance(size, -1, Image.SCALE_SMOOTH));
+            trayIcon.setImage(img.getScaledInstance(iconWidth, -1, Image.SCALE_SMOOTH));
         } else {
-            systemTray.setImage(img.getScaledInstance(-1, size, Image.SCALE_SMOOTH));
+            trayIcon.setImage(img.getScaledInstance(-1, iconHeight, Image.SCALE_SMOOTH));
         }
     }
 }

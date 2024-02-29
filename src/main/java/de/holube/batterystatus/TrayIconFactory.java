@@ -1,9 +1,7 @@
 package de.holube.batterystatus;
 
-import dorkbox.systemTray.MenuItem;
-import dorkbox.systemTray.SystemTray;
-
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class TrayIconFactory {
@@ -12,20 +10,28 @@ public class TrayIconFactory {
 
     }
 
-    public static SystemTray create() {
-        BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        Image image = img.getScaledInstance(1, 1, Image.SCALE_FAST);
+    public static TrayIcon create() {
+        final PopupMenu popup = createPopup();
+        final BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        final Image image = img.getScaledInstance(1, 1, Image.SCALE_FAST);
 
-        SystemTray systemTray = SystemTray.get();
-        if (systemTray == null) {
-            System.err.println("System Tray not Supported!");
-            System.exit(1);
-        }
+        final TrayIcon trayIcon = new TrayIcon(image);
+        trayIcon.setToolTip(null);
+        trayIcon.setPopupMenu(popup);
 
-        systemTray.setImage(image);
-        systemTray.getMenu().add(new MenuItem("Exit", e -> systemTray.shutdown()));
+        return trayIcon;
+    }
 
-        return systemTray;
+    private static PopupMenu createPopup() {
+        final ActionListener listener = e -> System.exit(0);
+
+        final MenuItem defaultItem = new Menu("Exit");
+        defaultItem.addActionListener(listener);
+
+        final PopupMenu popup = new PopupMenu();
+        popup.add(defaultItem);
+
+        return popup;
     }
 
 }

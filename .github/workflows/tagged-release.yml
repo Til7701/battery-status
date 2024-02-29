@@ -9,7 +9,7 @@ jobs:
   version-job:
     runs-on: ubuntu-latest
     outputs:
-      version-string: ${{ steps.step1.outputs.test }}
+      version-string: ${{ steps.step1.outputs.version }}
     steps:
       - id: step1
         run: |
@@ -22,7 +22,7 @@ jobs:
     uses: ./.github/workflows/build.yaml
     with:
       tag: ${{ github.ref_name }}
-      version: ${{needs.version-job.outputs.version-string}}
+      version: ${{ needs.version-job.outputs.version-string }}
       github-release: true
       prerelease: true
     secrets: inherit

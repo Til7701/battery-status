@@ -10,13 +10,13 @@ public class IconFactory {
     }
 
     public static BufferedImage create(String text) {
-        Font font = new Font("Arial", Font.PLAIN, 200);
+        final Font font = new Font("Arial", Font.PLAIN, 200);
         BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = img.createGraphics();
         g2d.setFont(font);
-        FontMetrics fm = g2d.getFontMetrics();
-        int width = fm.stringWidth(text);
-        int height = fm.getAscent() - fm.getDescent() + 10;
+        final FontMetrics fm = g2d.getFontMetrics();
+        final int width = fm.stringWidth(text);
+        final int height = fm.getAscent() - fm.getDescent() + 10;
         g2d.dispose();
 
         img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);

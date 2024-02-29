@@ -23,10 +23,7 @@ public class TrayIconFactory {
         }
 
         systemTray.setImage(image);
-        systemTray.getMenu().add(new MenuItem("Exit", e -> {
-            systemTray.shutdown();
-            // System.exit(0);
-        }));
+        systemTray.getMenu().add(new MenuItem("Exit", e -> systemTray.shutdown()));
 
         return systemTray;
     }

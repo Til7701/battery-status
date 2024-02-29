@@ -25,7 +25,7 @@ public class Main {
                 refreshIcon();
             }
 
-        }, 100, 60 * 1000);
+        }, 100, 60 * 1000L);
     }
 
     private static void refreshIcon() {

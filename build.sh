@@ -3,7 +3,7 @@
 set -e
 
 echo "Building client jar"
-mvn --batch-mode --update-snapshots clean install package
+mvn --batch-mode --update-snapshots install package
 
 echo "Running jpackage"
 jpackage --type exe \

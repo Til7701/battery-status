@@ -9,22 +9,12 @@ echo "Compiling with maven"
 mvn --batch-mode --update-snapshots compile verify
 cp "./target/battery-status-${version}.jar" "./target/lib"
 
-echo "Running jlink"
-jlink --module-path "./target/lib" \
---add-modules "battery.status" \
---launcher "Launcher=battery.status/de.holube.batterystatus.Main" \
---compress 2 \
---no-header-files \
---no-man-pages \
---strip-debug \
---strip-native-commands \
---output "./target/jlink-out"
-
 echo "Running jpackage"
 jpackage --type exe \
 --verbose \
---input "./target" \
---app-image "./target/jlink-out" \
+--module-path "./target/lib" \
+--add-modules "battery.status" \
+--module "battery.status/de.holube.batterystatus.Main" \
 --resource-dir "./jpackage" \
 --name "battery-status" \
 --app-version "${version}" \

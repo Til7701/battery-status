@@ -11,6 +11,7 @@ mvn --batch-mode --update-snapshots compile verify
 echo "Running jpackage"
 jpackage --type exe \
 --verbose \
+--module-path "./target/lib" \
 --module-path "./target/battery-status-${version}.jar" \
 --add-modules "battery.status" \
 --module "battery.status/de.holube.batterystatus.Main" \

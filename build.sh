@@ -7,12 +7,12 @@ echo "Called with version: ${version}"
 
 echo "Compiling with maven"
 mvn --batch-mode --update-snapshots compile verify
-cp "./target/battery-status-${version}.jar" "./target/lib"
 
 echo "Running jpackage"
 jpackage --type exe \
 --verbose \
 --module-path "./target/lib" \
+--module-path "./target/battery-status-${version}.jar" \
 --add-modules "battery.status" \
 --module "battery.status/de.holube.batterystatus.Main" \
 --resource-dir "./jpackage" \

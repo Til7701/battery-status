@@ -7,7 +7,7 @@ echo "Called with version: ${version}"
 
 echo "Compiling with maven"
 mvn --batch-mode --update-snapshots compile
-cp target/battery-status-*.jar target/lib
+cp target/battery-status-${version}.jar target/lib
 
 echo "Running jlink"
 jlink --module-path "./target/lib" \

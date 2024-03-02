@@ -5,14 +5,25 @@ set -e
 version="$1"
 echo "Called with version: ${version}"
 
-echo "Building client jar"
-mvn --batch-mode --update-snapshots install package
+echo "Compiling with maven"
+mvn --batch-mode --update-snapshots compile
+cp target/battery-status-*.jar target/lib
+
+echo "Running jlink"
+jlink --module-path "./target/lib" \
+--add-modules "battery.status" \
+--launcher Launcher=battery.status/de.holube.batterystatus.Main \
+--compress 2 \
+--no-header-files \
+--no-man-pages \
+--strip-debug \
+--output "./target/jlink-out"
 
 echo "Running jpackage"
 jpackage --type exe \
 --verbose \
 --input "./target" \
---main-jar "./battery-status.jar" \
+--app-image "./target/jlink-out" \
 --resource-dir "./jpackage" \
 --name "battery-status" \
 --app-version "${version}" \

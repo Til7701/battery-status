@@ -80,5 +80,6 @@ public class Main {
         } else {
             trayIcon.setImage(img.getScaledInstance(-1, iconHeight, Image.SCALE_SMOOTH));
         }
+        trayIcon.setToolTip(text + "%");
     }
 }

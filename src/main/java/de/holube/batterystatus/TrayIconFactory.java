@@ -1,7 +1,6 @@
 package de.holube.batterystatus;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class TrayIconFactory {
@@ -23,13 +22,11 @@ public class TrayIconFactory {
     }
 
     private static PopupMenu createPopup() {
-        final ActionListener listener = e -> System.exit(0);
-
-        final MenuItem defaultItem = new Menu("Exit");
-        defaultItem.addActionListener(listener);
+        final MenuItem exitMenuItem = new MenuItem("Exit");
+        exitMenuItem.addActionListener(a -> System.exit(0));
 
         final PopupMenu popup = new PopupMenu();
-        popup.add(defaultItem);
+        popup.add(exitMenuItem);
 
         return popup;
     }

@@ -11,8 +11,6 @@ import java.util.TimerTask;
 
 public class Main {
 
-    private static final Kernel32.SYSTEM_POWER_STATUS batteryStatus = new Kernel32.SYSTEM_POWER_STATUS();
-
     private static final TrayIcon trayIcon = TrayIconFactory.create();
 
     public static void main(String[] args) {
@@ -68,8 +66,7 @@ public class Main {
     }
 
     private static void refreshIcon() {
-        Kernel32.INSTANCE.GetSystemPowerStatus(batteryStatus);
-        String text = batteryStatus.getBatteryLifePercent();
+        String text = BatteryStatus.getPercentage();
 
         final BufferedImage img = IconFactory.create(text);
 

@@ -19,11 +19,7 @@ on:
         default: true
 
 jobs:
-  verify:
-    uses: ./.github/workflows/verify.yaml
-
   build:
-    needs: verify
     name: Publish for Windows
     runs-on: windows-latest
     steps:

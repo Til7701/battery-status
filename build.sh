@@ -6,13 +6,13 @@ version="$1"
 echo "Called with version: ${version}"
 
 echo "Compiling with maven"
-mvn --batch-mode --update-snapshots compile
-cp target/battery-status-${version}.jar target/lib
+mvn --batch-mode --update-snapshots compile verify
+cp "./target/battery-status-${version}.jar" "./target/lib"
 
 echo "Running jlink"
 jlink --module-path "./target/lib" \
 --add-modules "battery.status" \
---launcher Launcher=battery.status/de.holube.batterystatus.Main \
+--launcher "Launcher=battery.status/de.holube.batterystatus.Main" \
 --compress 2 \
 --no-header-files \
 --no-man-pages \

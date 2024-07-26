@@ -14,6 +14,8 @@ public class PowerEventListener {
 
     public native void initPowerEventListener();
 
+    public native int getBatteryPercentage();
+
     public void onSystemSuspend() {
         System.out.println("System is going to sleep");
     }

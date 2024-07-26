@@ -1,7 +1,6 @@
 package de.holube.batterystatus;
 
 import com.github.jbrienen.vbs_sc.ShortcutFactory;
-import de.holube.batterystatus.jna.Kernel32;
 import de.holube.batterystatus.jni.PowerEventListener;
 
 import java.awt.AWTException;
@@ -22,7 +21,6 @@ import java.util.TimerTask;
 
 public class Main {
 
-    private static final Kernel32.SYSTEM_POWER_STATUS batteryStatus = new Kernel32.SYSTEM_POWER_STATUS();
     private static final PowerEventListener listener = new PowerEventListener(Main::refreshIcon);
 
     private static final TrayIcon trayIcon;
@@ -92,8 +90,7 @@ public class Main {
     }
 
     private static void refreshIcon() {
-        Kernel32.INSTANCE.GetSystemPowerStatus(batteryStatus);
-        final String text = batteryStatus.getBatteryLifePercent();
+        final String text = String.valueOf(listener.getBatteryPercentage());
 
         final BufferedImage img = createImage(text);
 

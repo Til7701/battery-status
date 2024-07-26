@@ -15,6 +15,14 @@ extern "C" {
 JNIEXPORT void JNICALL Java_de_holube_batterystatus_jni_PowerEventListener_initPowerEventListener
   (JNIEnv *, jobject);
 
+/*
+ * Class:     de_holube_batterystatus_jni_PowerEventListener
+ * Method:    getBatteryPercentage
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_de_holube_batterystatus_jni_PowerEventListener_getBatteryPercentage
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif

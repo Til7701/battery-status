@@ -23,7 +23,7 @@ public class Main {
         try {
             final SystemTray tray = SystemTray.getSystemTray();
             tray.add(trayIcon);
-        } catch (Throwable e) {
+        } catch (AWTException e) {
             System.err.println("Could not add Tray Icon! " + e.getMessage());
             System.exit(1);
         }
@@ -34,6 +34,7 @@ public class Main {
             @Override
             public void run() {
                 refreshIcon();
+                System.gc();
             }
 
         }, 100, 60 * 1000L);

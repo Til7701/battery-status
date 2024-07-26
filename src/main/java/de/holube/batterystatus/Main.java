@@ -2,6 +2,7 @@ package de.holube.batterystatus;
 
 import com.github.jbrienen.vbs_sc.ShortcutFactory;
 import de.holube.batterystatus.jna.Kernel32;
+import de.holube.batterystatus.jni.PowerEventListener;
 
 import java.awt.AWTException;
 import java.awt.Color;
@@ -22,10 +23,14 @@ import java.util.TimerTask;
 public class Main {
 
     private static final Kernel32.SYSTEM_POWER_STATUS batteryStatus = new Kernel32.SYSTEM_POWER_STATUS();
+    private static final PowerEventListener listener = new PowerEventListener();
 
     private static final TrayIcon trayIcon;
 
+
     static {
+        listener.initPowerEventListener();
+
         final MenuItem exitMenuItem = new MenuItem("Exit");
         exitMenuItem.addActionListener(a -> System.exit(0));
         final PopupMenu popup = new PopupMenu();

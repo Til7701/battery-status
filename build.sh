@@ -6,7 +6,7 @@ version="$1"
 echo "Called with version: ${version}"
 
 echo "Compiling with maven"
-mvn --batch-mode --update-snapshots compile verify
+mvn --batch-mode --update-snapshots compile install
 
 echo "Running jpackage"
 jpackage --type exe \

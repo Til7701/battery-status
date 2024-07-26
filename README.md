@@ -15,9 +15,9 @@ To build the application, you need to have the following tools installed on a Wi
 
 - JDK 21 or later
 - Maven
+- WiX (https://wixtoolset.org/)
 - GCC
 - Make
-- WiX (https://wixtoolset.org/)
 
 The last two tools are required to build the native library that is used to get the battery status and detect, when the
 system wakes up from sleep. You likely want to use the https://github.com/skeeto/w64devkit to get the required tools.

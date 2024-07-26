@@ -1,6 +1,6 @@
 #include <jni.h>
 #include <windows.h>
-#include "PowerEventListener.h"
+#include "de_holube_batterystatus_jni_PowerEventListener.h"
 
 static JavaVM* jvm;
 static jobject listenerObject;

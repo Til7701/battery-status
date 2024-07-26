@@ -1,4 +1,4 @@
-package de.holube.batterystatus;
+package de.holube.batterystatus.jna;
 
 import com.sun.jna.Native;
 import com.sun.jna.Structure;
@@ -102,10 +102,10 @@ public interface Kernel32 extends StdCallLibrary {
         @Override
         public String toString() {
             return "ACLineStatus: " + getACLineStatusString() + "\n" +
-                    "Battery Flag: " + getBatteryFlagString() + "\n" +
-                    "Battery Life: " + getBatteryLifePercent() + "\n" +
-                    "Battery Left: " + getBatteryLifeTime() + "\n" +
-                    "Battery Full: " + getBatteryFullLifeTime() + "\n";
+                   "Battery Flag: " + getBatteryFlagString() + "\n" +
+                   "Battery Life: " + getBatteryLifePercent() + "\n" +
+                   "Battery Left: " + getBatteryLifeTime() + "\n" +
+                   "Battery Full: " + getBatteryFullLifeTime() + "\n";
         }
     }
 

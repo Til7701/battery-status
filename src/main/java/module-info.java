@@ -3,4 +3,5 @@ module battery.status {
     requires com.sun.jna;
 
     exports de.holube.batterystatus;
+    exports de.holube.batterystatus.jna to com.sun.jna;
 }

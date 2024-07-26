@@ -1,8 +1,18 @@
 package de.holube.batterystatus;
 
 import com.github.jbrienen.vbs_sc.ShortcutFactory;
+import de.holube.batterystatus.jna.Kernel32;
 
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,7 +23,21 @@ public class Main {
 
     private static final Kernel32.SYSTEM_POWER_STATUS batteryStatus = new Kernel32.SYSTEM_POWER_STATUS();
 
-    private static final TrayIcon trayIcon = TrayIconFactory.create();
+    private static final TrayIcon trayIcon;
+
+    static {
+        final MenuItem exitMenuItem = new MenuItem("Exit");
+        exitMenuItem.addActionListener(a -> System.exit(0));
+        final PopupMenu popup = new PopupMenu();
+        popup.add(exitMenuItem);
+
+        final BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        final Image image = img.getScaledInstance(1, 1, Image.SCALE_FAST);
+
+        trayIcon = new TrayIcon(image);
+        trayIcon.setToolTip(null);
+        trayIcon.setPopupMenu(popup);
+    }
 
     public static void main(String[] args) {
         if (!SystemTray.isSupported()) {
@@ -42,7 +66,7 @@ public class Main {
     }
 
     private static void registerAutostart() {
-        final String autoPath = getAutostartDirectory();
+        final String autoPath = System.getProperty("user.home") + "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup";
         final File autoDir = new File(autoPath);
         if (!autoDir.exists() || !autoDir.isDirectory()) {
             System.err.println("Could not create Shortcut: Autostart directory not found correctly. Search Path: " + autoPath);
@@ -64,15 +88,11 @@ public class Main {
         }
     }
 
-    private static String getAutostartDirectory() {
-        return System.getProperty("user.home") + "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup";
-    }
-
     private static void refreshIcon() {
         Kernel32.INSTANCE.GetSystemPowerStatus(batteryStatus);
-        String text = batteryStatus.getBatteryLifePercent();
+        final String text = batteryStatus.getBatteryLifePercent();
 
-        final BufferedImage img = IconFactory.create(text);
+        final BufferedImage img = createImage(text);
 
         final int iconWidth = (int) trayIcon.getSize().getWidth();
         final int iconHeight = (int) trayIcon.getSize().getHeight();
@@ -83,4 +103,24 @@ public class Main {
         }
         trayIcon.setToolTip(text + "%");
     }
+
+    public static BufferedImage createImage(final String text) {
+        final Font font = new Font("Arial", Font.PLAIN, 50);
+        BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = img.createGraphics();
+        g2d.setFont(font);
+        final FontMetrics fm = g2d.getFontMetrics();
+        final int textHeight = fm.getAscent() - fm.getDescent();
+        final int widthHeight = Math.max(fm.stringWidth(text), textHeight);
+        g2d.dispose();
+
+        img = new BufferedImage(widthHeight, widthHeight, BufferedImage.TYPE_INT_ARGB);
+        g2d = img.createGraphics();
+        g2d.setFont(font);
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(text, 0, widthHeight - ((widthHeight - textHeight) / 2));
+        g2d.dispose();
+        return img;
+    }
+
 }

@@ -1,6 +1,6 @@
 #include <jni.h>
 #include <windows.h>
-#include "de_holube_batterystatus_jni_PowerEventListener.h"
+#include "de_holube_batterystatus_jni_TBatteryPowerLib.h"
 
 static JavaVM* jvm;
 static jobject listenerObject;
@@ -23,7 +23,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-JNIEXPORT void JNICALL Java_de_holube_batterystatus_jni_PowerEventListener_initPowerEventListener(JNIEnv* env, jobject obj) {
+JNIEXPORT void JNICALL Java_de_holube_batterystatus_jni_TBatteryPowerLib_initTBatteryPowerLib(JNIEnv* env, jobject obj) {
     (*env)->GetJavaVM(env, &jvm);
     listenerObject = (*env)->NewGlobalRef(env, obj);
 
@@ -34,11 +34,11 @@ JNIEXPORT void JNICALL Java_de_holube_batterystatus_jni_PowerEventListener_initP
     WNDCLASS wndClass = {0};
     wndClass.lpfnWndProc = WindowProc;
     wndClass.hInstance = GetModuleHandle(NULL);
-    wndClass.lpszClassName = "PowerEventListenerClass";
+    wndClass.lpszClassName = "TBatteryPowerLibClass";
 
     RegisterClass(&wndClass);
 
-    HWND hwnd = CreateWindow("PowerEventListenerClass", "Power Event Listener",
+    HWND hwnd = CreateWindow("TBatteryPowerLibClass", "Power Event Listener",
                              0, 0, 0, 0, 0,
                              NULL, NULL, GetModuleHandle(NULL), NULL);
 
@@ -52,7 +52,7 @@ JNIEXPORT void JNICALL Java_de_holube_batterystatus_jni_PowerEventListener_initP
     (*env)->DeleteGlobalRef(env, listenerObject);
 }
 
-JNIEXPORT jint JNICALL Java_de_holube_batterystatus_jni_PowerEventListener_getBatteryPercentage(JNIEnv* env, jobject obj) {
+JNIEXPORT jint JNICALL Java_de_holube_batterystatus_jni_TBatteryPowerLib_getBatteryPercentage(JNIEnv* env, jobject obj) {
     SYSTEM_POWER_STATUS sps;
     if (GetSystemPowerStatus(&sps)) {
         return sps.BatteryLifePercent;

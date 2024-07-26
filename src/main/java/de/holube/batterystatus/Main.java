@@ -1,7 +1,7 @@
 package de.holube.batterystatus;
 
 import com.github.jbrienen.vbs_sc.ShortcutFactory;
-import de.holube.batterystatus.jni.PowerEventListener;
+import de.holube.batterystatus.jni.TBatteryPowerLib;
 
 import java.awt.AWTException;
 import java.awt.Color;
@@ -21,7 +21,7 @@ import java.util.TimerTask;
 
 public class Main {
 
-    private static final PowerEventListener listener = new PowerEventListener(Main::refreshIcon);
+    private static final TBatteryPowerLib lib = new TBatteryPowerLib(Main::refreshIcon);
 
     private static final TrayIcon trayIcon;
 
@@ -63,7 +63,7 @@ public class Main {
 
         }, 100, 60 * 1000L);
         registerAutostart();
-        listener.initPowerEventListener();
+        lib.initTBatteryPowerLib();
     }
 
     private static void registerAutostart() {
@@ -90,7 +90,7 @@ public class Main {
     }
 
     private static void refreshIcon() {
-        final String text = String.valueOf(listener.getBatteryPercentage());
+        final String text = String.valueOf(lib.getBatteryPercentage());
 
         final BufferedImage img = createImage(text);
 

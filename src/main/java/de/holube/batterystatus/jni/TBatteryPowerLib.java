@@ -1,18 +1,18 @@
 package de.holube.batterystatus.jni;
 
-public class PowerEventListener {
+public class TBatteryPowerLib {
 
     static {
-        System.loadLibrary("PowerEventLib");
+        System.loadLibrary("TBatteryPowerLib");
     }
 
     private final Runnable resumeCallback;
 
-    public PowerEventListener(Runnable resumeCallback) {
+    public TBatteryPowerLib(Runnable resumeCallback) {
         this.resumeCallback = resumeCallback;
     }
 
-    public native void initPowerEventListener();
+    public native void initTBatteryPowerLib();
 
     public native int getBatteryPercentage();
 

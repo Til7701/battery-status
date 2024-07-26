@@ -6,12 +6,12 @@ version="$1"
 echo "Called with version: ${version}"
 
 echo "Compiling with maven"
-mvn --batch-mode --update-snapshots compile verify
+mvn --batch-mode --update-snapshots compile install
 
 echo "Running jpackage"
 jpackage --type exe \
 --verbose \
---module-path "./target/lib" \
+--input "./target/native" \
 --module-path "./target/battery-status-${version}.jar" \
 --add-modules "battery.status" \
 --module "battery.status/de.holube.batterystatus.Main" \

@@ -1,7 +1,7 @@
 package de.holube.batterystatus;
 
 import com.github.jbrienen.vbs_sc.ShortcutFactory;
-import de.holube.batterystatus.jna.Kernel32;
+import de.holube.batterystatus.jni.TBatteryPowerLib;
 
 import java.awt.AWTException;
 import java.awt.Color;
@@ -21,7 +21,7 @@ import java.util.TimerTask;
 
 public class Main {
 
-    private static final Kernel32.SYSTEM_POWER_STATUS batteryStatus = new Kernel32.SYSTEM_POWER_STATUS();
+    private static final TBatteryPowerLib lib = new TBatteryPowerLib(Main::refreshIcon);
 
     private static final TrayIcon trayIcon;
 
@@ -63,6 +63,7 @@ public class Main {
 
         }, 100, 60 * 1000L);
         registerAutostart();
+        lib.initTBatteryPowerLib();
     }
 
     private static void registerAutostart() {
@@ -89,8 +90,7 @@ public class Main {
     }
 
     private static void refreshIcon() {
-        Kernel32.INSTANCE.GetSystemPowerStatus(batteryStatus);
-        final String text = batteryStatus.getBatteryLifePercent();
+        final String text = String.valueOf(lib.getBatteryPercentage());
 
         final BufferedImage img = createImage(text);
 

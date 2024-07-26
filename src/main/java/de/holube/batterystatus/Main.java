@@ -27,10 +27,7 @@ public class Main {
 
     private static final TrayIcon trayIcon;
 
-
     static {
-        listener.initPowerEventListener();
-
         final MenuItem exitMenuItem = new MenuItem("Exit");
         exitMenuItem.addActionListener(a -> System.exit(0));
         final PopupMenu popup = new PopupMenu();
@@ -68,6 +65,7 @@ public class Main {
 
         }, 100, 60 * 1000L);
         registerAutostart();
+        listener.initPowerEventListener();
     }
 
     private static void registerAutostart() {

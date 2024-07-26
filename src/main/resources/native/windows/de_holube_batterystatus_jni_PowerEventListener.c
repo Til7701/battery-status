@@ -2,32 +2,29 @@
 #include <windows.h>
 #include "PowerEventListener.h"
 
+static JavaVM* jvm;
 static jobject listenerObject;
 static jmethodID onSystemSuspendMethod;
 static jmethodID onSystemResumeMethod;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     if (uMsg == WM_POWERBROADCAST) {
+        JNIEnv* env;
+        (*jvm)->AttachCurrentThread(jvm, (void**)&env, NULL);
+
         if (wParam == PBT_APMSUSPEND) {
-            JNIEnv* env;
-            JavaVM* jvm;
-            (*listenerObject)->GetJavaVM(listenerObject, &jvm);
-            (*jvm)->AttachCurrentThread(jvm, (void**)&env, NULL);
             (*env)->CallVoidMethod(env, listenerObject, onSystemSuspendMethod);
-            (*jvm)->DetachCurrentThread(jvm);
         } else if (wParam == PBT_APMRESUMESUSPEND) {
-            JNIEnv* env;
-            JavaVM* jvm;
-            (*listenerObject)->GetJavaVM(listenerObject, &jvm);
-            (*jvm)->AttachCurrentThread(jvm, (void**)&env, NULL);
             (*env)->CallVoidMethod(env, listenerObject, onSystemResumeMethod);
-            (*jvm)->DetachCurrentThread(jvm);
         }
+
+        (*jvm)->DetachCurrentThread(jvm);
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-JNIEXPORT void JNICALL Java_PowerEventListener_initPowerEventListener(JNIEnv* env, jobject obj) {
+JNIEXPORT void JNICALL Java_de_holube_batterystatus_jni_PowerEventListener_initPowerEventListener(JNIEnv* env, jobject obj) {
+    (*env)->GetJavaVM(env, &jvm);
     listenerObject = (*env)->NewGlobalRef(env, obj);
 
     jclass cls = (*env)->GetObjectClass(env, obj);
@@ -45,6 +42,7 @@ JNIEXPORT void JNICALL Java_PowerEventListener_initPowerEventListener(JNIEnv* en
                              0, 0, 0, 0, 0,
                              NULL, NULL, GetModuleHandle(NULL), NULL);
 
+    // Main loop to keep the window alive
     MSG msg;
     while (GetMessage(&msg, hwnd, 0, 0)) {
         TranslateMessage(&msg);

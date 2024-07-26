@@ -6,6 +6,12 @@ public class PowerEventListener {
         System.loadLibrary("PowerEventLib");
     }
 
+    private final Runnable resumeCallback;
+
+    public PowerEventListener(Runnable resumeCallback) {
+        this.resumeCallback = resumeCallback;
+    }
+
     public native void initPowerEventListener();
 
     public void onSystemSuspend() {
@@ -14,6 +20,7 @@ public class PowerEventListener {
 
     public void onSystemResume() {
         System.out.println("System has resumed from sleep");
+        resumeCallback.run();
     }
 
 }

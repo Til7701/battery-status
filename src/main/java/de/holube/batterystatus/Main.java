@@ -23,7 +23,7 @@ import java.util.TimerTask;
 public class Main {
 
     private static final Kernel32.SYSTEM_POWER_STATUS batteryStatus = new Kernel32.SYSTEM_POWER_STATUS();
-    private static final PowerEventListener listener = new PowerEventListener();
+    private static final PowerEventListener listener = new PowerEventListener(Main::refreshIcon);
 
     private static final TrayIcon trayIcon;
 

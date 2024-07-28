@@ -4,6 +4,9 @@ Adds a tray icon to show the current battery percentage for Windows devices.
 
 ## Installation
 
+If you have an older version of the application installed, I recommend to stop the application first. You can do this by
+right-clicking on the tray icon and selecting "Exit".
+
 Download the latest release and run the installer. When you run the application for the first time, it will add the
 application to the startup folder, so it will start automatically when you log in again.
 

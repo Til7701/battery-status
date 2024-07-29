@@ -1,4 +1,4 @@
-# battery-status
+# battery-status <img src="jpackage/battery-status.ico" alt="icon" width="50" align="right"/>
 
 Adds a tray icon to show the current battery percentage for Windows devices.
 

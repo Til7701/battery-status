@@ -14,8 +14,6 @@ public class TBatteryPowerLib {
 
     public native void initTBatteryPowerLib();
 
-    public native int getBatteryPercentage();
-
     public void onSystemSuspend() {
         System.out.println("System is going to sleep");
     }

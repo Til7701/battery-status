@@ -1,18 +1,10 @@
 package de.holube.batterystatus;
 
 import com.github.jbrienen.vbs_sc.ShortcutFactory;
+import de.holube.batterystatus.ffm.NativePowerLib;
 import de.holube.batterystatus.jni.TBatteryPowerLib;
 
-import java.awt.AWTException;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -90,7 +82,7 @@ public class Main {
     }
 
     private static void refreshIcon() {
-        final String text = String.valueOf(lib.getBatteryPercentage());
+        final String text = String.valueOf(NativePowerLib.getBatteryPercentage());
 
         final BufferedImage img = createImage(text);
 

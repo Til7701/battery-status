@@ -1,6 +1,7 @@
 package de.holube.batterystatus;
 
 import com.github.jbrienen.vbs_sc.ShortcutFactory;
+import de.holube.batterystatus.ffm.NativePowerLib;
 import de.holube.batterystatus.jni.TBatteryPowerLib;
 import de.holube.batterystatus.util.VersionInfo;
 
@@ -108,7 +109,7 @@ public class Main {
     }
 
     private static void refreshIcon() {
-        final String text = String.valueOf(lib.getBatteryPercentage());
+        final String text = String.valueOf(NativePowerLib.getBatteryPercentage());
 
         final BufferedImage img = createImage(text);
 

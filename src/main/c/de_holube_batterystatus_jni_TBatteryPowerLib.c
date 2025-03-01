@@ -51,11 +51,3 @@ JNIEXPORT void JNICALL Java_de_holube_batterystatus_jni_TBatteryPowerLib_initTBa
 
     (*env)->DeleteGlobalRef(env, listenerObject);
 }
-
-JNIEXPORT jint JNICALL Java_de_holube_batterystatus_jni_TBatteryPowerLib_getBatteryPercentage(JNIEnv* env, jobject obj) {
-    SYSTEM_POWER_STATUS sps;
-    if (GetSystemPowerStatus(&sps)) {
-        return sps.BatteryLifePercent;
-    }
-    return -1; // Return -1 if unable to get battery status
-}

@@ -2,20 +2,15 @@ package de.holube.batterystatus;
 
 import com.github.jbrienen.vbs_sc.ShortcutFactory;
 import de.holube.batterystatus.jni.TBatteryPowerLib;
+import de.holube.batterystatus.util.VersionInfo;
 
-import java.awt.AWTException;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,9 +21,32 @@ public class Main {
     private static final TrayIcon trayIcon;
 
     static {
+        final MenuItem sleepMenuItem = new MenuItem("Power & Sleep Settings");
+        sleepMenuItem.addActionListener(ignored -> {
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                desktop.browse(new URI("ms-settings:powersleep"));
+            } catch (IOException | URISyntaxException e) {
+                System.err.println("Could not open Sleep Settings");
+            }
+        });
+        final MenuItem energyRecommendationsMenuItem = new MenuItem("Energy Recommendations");
+        energyRecommendationsMenuItem.addActionListener(ignored -> {
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                desktop.browse(new URI("ms-settings:energyrecommendations"));
+            } catch (IOException | URISyntaxException e) {
+                System.err.println("Could not open Energy Recommendations");
+            }
+        });
         final MenuItem exitMenuItem = new MenuItem("Exit");
-        exitMenuItem.addActionListener(a -> System.exit(0));
+        exitMenuItem.addActionListener(ignored -> System.exit(0));
+
         final PopupMenu popup = new PopupMenu();
+        popup.add(sleepMenuItem);
+        if (VersionInfo.isWindows11())
+            popup.add(energyRecommendationsMenuItem);
+        popup.addSeparator();
         popup.add(exitMenuItem);
 
         final BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);

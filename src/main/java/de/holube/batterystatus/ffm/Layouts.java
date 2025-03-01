@@ -9,6 +9,7 @@ class Layouts {
         // Utility class
     }
 
+    // https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-system_power_status
     static MemoryLayout SYSTEM_POWER_STATUS() {
         return MemoryLayout.structLayout(
                 ValueLayout.JAVA_BYTE,

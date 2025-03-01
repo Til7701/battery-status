@@ -7,9 +7,9 @@ public class VersionInfo {
     }
 
     public static boolean isWindows11() {
-        String version = System.getProperty("os.version");
-        System.out.println("OS version: " + version);
-        return version != null && version.startsWith("11");
+        String name = System.getProperty("os.name");
+        System.out.println("OS name: " + name);
+        return name != null && name.startsWith("Windows 11");
     }
 
 }

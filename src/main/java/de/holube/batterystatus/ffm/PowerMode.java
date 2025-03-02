@@ -10,12 +10,14 @@ public enum PowerMode {
     HIGH_PERFORMANCE("8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c");
 
     private final UUID uuid;
+    private final GUID guid;
 
     PowerMode(String uuid) {
         this.uuid = UUID.fromString(uuid);
+        this.guid = new GUID(this.uuid);
     }
 
-    public static PowerMode fromUUID(UUID uuid) {
+    static PowerMode fromUUID(UUID uuid) {
         for (PowerMode mode : values()) {
             if (mode.uuid.equals(uuid)) {
                 return mode;
@@ -23,4 +25,18 @@ public enum PowerMode {
         }
         throw new IllegalArgumentException("Unknown power mode UUID: " + uuid);
     }
+
+    static PowerMode fromGUID(GUID guid) {
+        for (PowerMode mode : values()) {
+            if (mode.guid.equals(guid)) {
+                return mode;
+            }
+        }
+        throw new IllegalArgumentException("Unknown power mode GUID: " + guid);
+    }
+
+    GUID getGUID() {
+        return guid;
+    }
+
 }

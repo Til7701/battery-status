@@ -21,14 +21,4 @@ class Layouts {
         );
     }
 
-    // https://learn.microsoft.com/en-us/windows/win32/api/guiddef/ns-guiddef-guid
-    static MemoryLayout GUID() {
-        return MemoryLayout.structLayout(
-                ValueLayout.JAVA_LONG,
-                ValueLayout.JAVA_SHORT,
-                ValueLayout.JAVA_SHORT,
-                MemoryLayout.sequenceLayout(8, ValueLayout.JAVA_CHAR)
-        );
-    }
-
 }

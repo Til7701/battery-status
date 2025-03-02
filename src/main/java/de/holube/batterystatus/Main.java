@@ -26,7 +26,7 @@ public class Main {
 
     static {
         final MenuItem sleepMenuItem = new MenuItem("Power & Sleep Settings");
-        sleepMenuItem.addActionListener(ignored -> {
+        sleepMenuItem.addActionListener(_ -> {
             Desktop desktop = Desktop.getDesktop();
             try {
                 desktop.browse(new URI("ms-settings:powersleep"));
@@ -35,7 +35,7 @@ public class Main {
             }
         });
         final MenuItem energyRecommendationsMenuItem = new MenuItem("Energy Recommendations");
-        energyRecommendationsMenuItem.addActionListener(ignored -> {
+        energyRecommendationsMenuItem.addActionListener(_ -> {
             Desktop desktop = Desktop.getDesktop();
             try {
                 desktop.browse(new URI("ms-settings:energyrecommendations"));
@@ -44,11 +44,14 @@ public class Main {
             }
         });
         final CheckboxMenuItem highPerformanceMenuItem = new CheckboxMenuItem("High Performance");
+        highPerformanceMenuItem.addItemListener(_ -> NativePowerLib.setActivePowerMode(PowerMode.HIGH_PERFORMANCE));
         final CheckboxMenuItem balancedMenuItem = new CheckboxMenuItem("Balanced");
+        balancedMenuItem.addItemListener(_ -> NativePowerLib.setActivePowerMode(PowerMode.BALANCED));
         final CheckboxMenuItem powerSaverMenuItem = new CheckboxMenuItem("Power Saver");
+        powerSaverMenuItem.addItemListener(_ -> NativePowerLib.setActivePowerMode(PowerMode.POWER_SAVER));
 
         final MenuItem exitMenuItem = new MenuItem("Exit");
-        exitMenuItem.addActionListener(ignored -> System.exit(0));
+        exitMenuItem.addActionListener(_ -> System.exit(0));
 
         final PopupMenu popup = new PopupMenu();
         popup.add(sleepMenuItem);

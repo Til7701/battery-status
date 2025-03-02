@@ -3,7 +3,6 @@ package de.holube.batterystatus.ffm;
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
 import java.util.Optional;
-import java.util.UUID;
 
 public class NativePowerLib {
 
@@ -61,7 +60,6 @@ public class NativePowerLib {
             MemorySegment functionAddr = optional.get();
 
             // create layout and downcall
-            MemoryLayout layout = Layouts.GUID();
             FunctionDescriptor sig = FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             MethodHandle methodHandle = linker.downcallHandle(functionAddr, sig);
 
@@ -75,18 +73,44 @@ public class NativePowerLib {
             if (success != 0) {
                 throw new FFMException("Failed to get power mode");
             }
-            MemorySegment guid = nativeInput.getAtIndex(ValueLayout.ADDRESS, 0).reinterpret(layout.byteSize());
-            long data1 = guid.getAtIndex(ValueLayout.JAVA_LONG, 0);
-            long data2 = guid.getAtIndex(ValueLayout.JAVA_LONG, ValueLayout.JAVA_BYTE.byteSize());
-            localFree(guid, arena);
-
-            // create UUID
-            long part1 = ((data1 & 0xFFFF000000000000L) >> 48) | ((data1 & 0x0000FFFF00000000L) >> 16) | ((data1 & 0x00000000FFFFFFFFL) << 32);
-            long part2 = Long.reverseBytes(data2);
-            UUID uuid = new UUID(part1, part2);
-            return PowerMode.fromUUID(uuid);
+            MemorySegment guidSegment = nativeInput.getAtIndex(ValueLayout.ADDRESS, 0).reinterpret(GUID.layout().byteSize());
+            GUID guid = GUID.fromMemorySegment(guidSegment);
+            localFree(guidSegment, arena);
+            return PowerMode.fromGUID(guid);
         } catch (Throwable e) {
             throw new FFMException("Failed to get power mode", e);
+        }
+    }
+
+    public static void setActivePowerMode(PowerMode mode) {
+        try (Arena arena = Arena.ofConfined()) {
+            // get library
+            Linker linker = Linker.nativeLinker();
+            SymbolLookup lib = SymbolLookup.libraryLookup("PowrProf", arena);
+
+            // get function address
+            Optional<MemorySegment> optional = lib.find("PowerSetActiveScheme");
+            if (optional.isEmpty()) {
+                throw new FFMException("Failed to find PowerSetActiveScheme");
+            }
+            MemorySegment functionAddr = optional.get();
+
+            // create layout and downcall
+            FunctionDescriptor sig = FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            MethodHandle methodHandle = linker.downcallHandle(functionAddr, sig);
+
+            // create input
+            MemorySegment nativeInput = arena.allocate(GUID.layout());
+            GUID.writeToMemorySegment(mode, nativeInput);
+
+            // call function
+            long success = (long) methodHandle.invokeExact(MemorySegment.NULL, nativeInput);
+
+            // check result
+            if (success != 0)
+                throw new FFMException("Failed to set power mode");
+        } catch (Throwable e) {
+            throw new FFMException("Failed to set power mode", e);
         }
     }
 

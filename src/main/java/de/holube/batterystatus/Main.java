@@ -2,10 +2,13 @@ package de.holube.batterystatus;
 
 import com.github.jbrienen.vbs_sc.ShortcutFactory;
 import de.holube.batterystatus.ffm.NativePowerLib;
+import de.holube.batterystatus.ffm.PowerMode;
 import de.holube.batterystatus.jni.TBatteryPowerLib;
 import de.holube.batterystatus.util.VersionInfo;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,7 +26,7 @@ public class Main {
 
     static {
         final MenuItem sleepMenuItem = new MenuItem("Power & Sleep Settings");
-        sleepMenuItem.addActionListener(ignored -> {
+        sleepMenuItem.addActionListener(_ -> {
             Desktop desktop = Desktop.getDesktop();
             try {
                 desktop.browse(new URI("ms-settings:powersleep"));
@@ -32,7 +35,7 @@ public class Main {
             }
         });
         final MenuItem energyRecommendationsMenuItem = new MenuItem("Energy Recommendations");
-        energyRecommendationsMenuItem.addActionListener(ignored -> {
+        energyRecommendationsMenuItem.addActionListener(_ -> {
             Desktop desktop = Desktop.getDesktop();
             try {
                 desktop.browse(new URI("ms-settings:energyrecommendations"));
@@ -40,13 +43,24 @@ public class Main {
                 System.err.println("Could not open Energy Recommendations");
             }
         });
+        final CheckboxMenuItem highPerformanceMenuItem = new CheckboxMenuItem("High Performance");
+        highPerformanceMenuItem.addItemListener(_ -> NativePowerLib.setActivePowerMode(PowerMode.HIGH_PERFORMANCE));
+        final CheckboxMenuItem balancedMenuItem = new CheckboxMenuItem("Balanced");
+        balancedMenuItem.addItemListener(_ -> NativePowerLib.setActivePowerMode(PowerMode.BALANCED));
+        final CheckboxMenuItem powerSaverMenuItem = new CheckboxMenuItem("Power Saver");
+        powerSaverMenuItem.addItemListener(_ -> NativePowerLib.setActivePowerMode(PowerMode.POWER_SAVER));
+
         final MenuItem exitMenuItem = new MenuItem("Exit");
-        exitMenuItem.addActionListener(ignored -> System.exit(0));
+        exitMenuItem.addActionListener(_ -> System.exit(0));
 
         final PopupMenu popup = new PopupMenu();
         popup.add(sleepMenuItem);
         if (VersionInfo.isWindows11())
             popup.add(energyRecommendationsMenuItem);
+        popup.addSeparator();
+        popup.add(highPerformanceMenuItem);
+        popup.add(balancedMenuItem);
+        popup.add(powerSaverMenuItem);
         popup.addSeparator();
         popup.add(exitMenuItem);
 
@@ -56,6 +70,17 @@ public class Main {
         trayIcon = new TrayIcon(image);
         trayIcon.setToolTip(null);
         trayIcon.setPopupMenu(popup);
+        trayIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    PowerMode powerMode = NativePowerLib.getActivePowerMode();
+                    highPerformanceMenuItem.setState(powerMode == PowerMode.HIGH_PERFORMANCE);
+                    balancedMenuItem.setState(powerMode == PowerMode.BALANCED);
+                    powerSaverMenuItem.setState(powerMode == PowerMode.POWER_SAVER);
+                }
+            }
+        });
     }
 
     public static void main(String[] args) {

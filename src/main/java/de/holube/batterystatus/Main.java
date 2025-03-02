@@ -24,6 +24,10 @@ public class Main {
 
     private static final TrayIcon trayIcon;
 
+    private static final CheckboxMenuItem highPerformanceMenuItem = new CheckboxMenuItem("High Performance");
+    private static final CheckboxMenuItem balancedMenuItem = new CheckboxMenuItem("Balanced");
+    private static final CheckboxMenuItem powerSaverMenuItem = new CheckboxMenuItem("Power Saver");
+
     static {
         final MenuItem sleepMenuItem = new MenuItem("Power & Sleep Settings");
         sleepMenuItem.addActionListener(_ -> {
@@ -43,12 +47,24 @@ public class Main {
                 System.err.println("Could not open Energy Recommendations");
             }
         });
-        final CheckboxMenuItem highPerformanceMenuItem = new CheckboxMenuItem("High Performance");
-        highPerformanceMenuItem.addItemListener(_ -> NativePowerLib.setActivePowerMode(PowerMode.HIGH_PERFORMANCE));
-        final CheckboxMenuItem balancedMenuItem = new CheckboxMenuItem("Balanced");
-        balancedMenuItem.addItemListener(_ -> NativePowerLib.setActivePowerMode(PowerMode.BALANCED));
-        final CheckboxMenuItem powerSaverMenuItem = new CheckboxMenuItem("Power Saver");
-        powerSaverMenuItem.addItemListener(_ -> NativePowerLib.setActivePowerMode(PowerMode.POWER_SAVER));
+        highPerformanceMenuItem.addItemListener(_ -> {
+            NativePowerLib.setActivePowerMode(PowerMode.HIGH_PERFORMANCE);
+            highPerformanceMenuItem.setState(true);
+            balancedMenuItem.setState(false);
+            powerSaverMenuItem.setState(false);
+        });
+        balancedMenuItem.addItemListener(_ -> {
+            NativePowerLib.setActivePowerMode(PowerMode.BALANCED);
+            highPerformanceMenuItem.setState(false);
+            balancedMenuItem.setState(true);
+            powerSaverMenuItem.setState(false);
+        });
+        powerSaverMenuItem.addItemListener(_ -> {
+            NativePowerLib.setActivePowerMode(PowerMode.POWER_SAVER);
+            highPerformanceMenuItem.setState(false);
+            balancedMenuItem.setState(false);
+            powerSaverMenuItem.setState(true);
+        });
 
         final MenuItem exitMenuItem = new MenuItem("Exit");
         exitMenuItem.addActionListener(_ -> System.exit(0));

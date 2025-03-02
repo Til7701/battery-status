@@ -15,6 +15,8 @@ jpackage --type exe \
 --module-path "./target/battery-status-${version}.jar" \
 --add-modules "battery.status" \
 --module "battery.status/de.holube.batterystatus.Main" \
+--java-options "-XX:-UseSerialGC" \
+--java-options "--enable-native-access=battery.status" \
 --resource-dir "./jpackage" \
 --name "battery-status" \
 --app-version "${version}" \

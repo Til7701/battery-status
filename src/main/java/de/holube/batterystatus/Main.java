@@ -117,11 +117,11 @@ public class Main {
             System.err.println("Could not create Shortcut: Autostart directory not found correctly. Search Path: " + autoPath);
             return;
         }
-        System.out.println(autoDir.getAbsolutePath());
+        System.out.println("Autostart Dir: " + autoDir.getAbsolutePath());
         final File installDir = new File(".");
         final String exePath = installDir.getAbsolutePath().substring(0, installDir.getAbsolutePath().length() - 2) + "\\battery-status.exe";
         final String linkPath = autoDir.getAbsolutePath() + "\\battery-status.lnk";
-        System.out.println(installDir.getAbsolutePath());
+        System.out.println("Installation Dir: " + installDir.getAbsolutePath());
 
         if (!new File(linkPath).exists()) {
             try {

@@ -15,8 +15,13 @@ jpackage --type exe \
 --module-path "./target/battery-status-${version}.jar" \
 --add-modules "battery.status" \
 --module "battery.status/de.holube.batterystatus.Main" \
---java-options "-XX:-UseSerialGC" \
 --java-options "--enable-native-access=battery.status" \
+--java-options "-Xint" \
+--java-options "-XX:ActiveProcessorCount=2" \
+--java-options "-XX:+UseG1GC" \
+--java-options "-XX:+UseStringDeduplication" \
+--java-options "-XX:MaxHeapFreeRatio=10" \
+--java-options "-XX:MinHeapFreeRatio=5" \
 --resource-dir "./jpackage" \
 --name "battery-status" \
 --app-version "${version}" \

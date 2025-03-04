@@ -6,7 +6,7 @@
 
     <groupId>de.holube</groupId>
     <artifactId>battery-status</artifactId>
-    <version>3.3.2</version>
+    <version>3.3.3</version>
     <name>battery-status</name>
 
     <properties>

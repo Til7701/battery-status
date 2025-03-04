@@ -11,7 +11,7 @@ jobs:
     uses: ./.github/workflows/build.yaml
     with:
       tag: dev
-      version: "3.3.2"
+      version: "3.3.3"
       github-release: true
       prerelease: true
     secrets: inherit

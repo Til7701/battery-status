@@ -16,7 +16,7 @@ I tested the application on Windows 10 and 11.
 
 To build the application, you need to have the following tools installed on a Windows machine:
 
-- JDK 21 or later
+- JDK 23 or later
 - Maven
 - WiX (https://wixtoolset.org/)
 - GCC

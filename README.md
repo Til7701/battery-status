@@ -17,7 +17,6 @@ I tested the application on Windows 10 and 11.
 To build the application, you need to have the following tools installed on a Windows machine:
 
 - JDK 23 or later
-- Maven
 - WiX (https://wixtoolset.org/)
 - GCC
 - Make
@@ -28,7 +27,7 @@ system wakes up from sleep. You likely want to use the https://github.com/skeeto
 To build the application, run the `build.sh` script. This will build the java application and the native library.
 Compilation of Java and C is handled by Maven. Maven calls Make to build the native library. The script also creates an
 installer for the application using `jpackage`. For that you need WiX installed on your machine. (Note, I used WiX 3.14
-to create the installer. Newer versions might not be supported by JPackage).
+to create the installer. Newer versions might not be supported by JPackage.).
 
 ## License
 

@@ -16,8 +16,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
-          java-version: '23'
+          java-version: '25'
           distribution: 'temurin'
           cache: maven
       - name: Verify with Maven
-        run: mvn --batch-mode --update-snapshots verify
+        run: ./mvnw --batch-mode --update-snapshots verify jpackage:jpackage

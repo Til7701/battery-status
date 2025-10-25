@@ -27,13 +27,13 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
-          java-version: '23'
+          java-version: '25'
           distribution: 'temurin'
           cache: maven
       - name: Build
         shell: bash
         run: |
-          ./build.sh ${{ inputs.version }}
+          ./mvnw --batch-mode --update-snapshots clean package jpackage:jpackage
       - name: Upload Application
         uses: svenstaro/upload-release-action@v2
         env:

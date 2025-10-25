@@ -8,6 +8,7 @@
     <artifactId>battery-status</artifactId>
     <version>3.3.3</version>
     <name>battery-status</name>
+    <packaging>jlink</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,8 +21,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.14.1</version>
                 <configuration>
-                    <source>23</source>
-                    <target>23</target>
+                    <source>25</source>
+                    <target>25</target>
                 </configuration>
             </plugin>
 
@@ -42,6 +43,45 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-jlink-plugin</artifactId>
+                <version>3.2.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <launcher>battery-status=battery.status/de.holube.batterystatus.Main</launcher>
+                    <stripDebug>true</stripDebug>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <noManPages>true</noManPages>
+                    <compress>zip-9</compress>
+                    <addOptions>-Xint</addOptions>
+                    <addOptions>-XX:ActiveProcessorCount=2</addOptions>
+                    <addOptions>-XX:+UseG1GC</addOptions>
+                    <addOptions>-XX:+UseStringDeduplication</addOptions>
+                    <addOptions>-XX:MaxHeapFreeRatio=10</addOptions>
+                    <addOptions>-XX:MinHeapFreeRatio=5</addOptions>
+                    <addOptions>-XX:+UseCompressedOops</addOptions>
+                    <addOptions>--enable-native-access=battery.status</addOptions>
+                    <verbose>true</verbose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.7.1</version>
+                <configuration>
+                    <type>EXE</type>
+                    <input>${project.build.directory}/native</input>
+                    <name>battery-status</name>
+                    <destination>${project.build.directory}/dist</destination>
+                    <module>battery.status/de.holube.batterystatus.Main</module>
+                    <runtimeImage>${project.build.directory}/maven-jlink/default</runtimeImage>
+                    <resourceDir>jpackage</resourceDir>
+                    <vendor>Tilman Holube</vendor>
+                    <winUpgradeUuid>19c20ba8-f49e-43e7-8efe-40970f2be007</winUpgradeUuid>
+                    <winMenu>true</winMenu>
+                </configuration>
             </plugin>
         </plugins>
     </build>

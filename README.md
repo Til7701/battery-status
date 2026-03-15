@@ -1,5 +1,8 @@
 # battery-status <img src="jpackage/battery-status.ico" alt="icon" width="50" align="right"/>
 
+> [!WARNING]
+> No longer maintained, since I do not use Windows anymore and Windows now has, after a veeeeerrrryyy long time, also the option to show the battery percentage.
+
 Adds a tray icon to show the current battery percentage for Windows devices.
 
 ## Installation

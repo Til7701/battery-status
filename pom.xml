@@ -69,7 +69,7 @@
             <plugin>
                 <groupId>org.panteleyev</groupId>
                 <artifactId>jpackage-maven-plugin</artifactId>
-                <version>1.7.1</version>
+                <version>1.7.3</version>
                 <configuration>
                     <type>EXE</type>
                     <input>${project.build.directory}/native</input>
